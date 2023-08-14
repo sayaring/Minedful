@@ -1,0 +1,2 @@
+# Minedful
+Process Mining application
