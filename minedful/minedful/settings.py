@@ -86,6 +86,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'MinedfulDB',
+        'CLIENT': {
+            'host': 'localhost',  # MongoDB host address (e.g., 'localhost')
+            'port': 27017
+        }
     }
 }
 
@@ -130,3 +134,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AWS_ACCESS_KEY_ID = 'AKIAZ4DIQU2XAFOPNUPJ'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'minedfulbucket'
+AWS_S3_SIGNATURE_NAME = 's3v4',
+AWS_S3_REGION_NAME = 'ap-south-1'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL =  None
+AWS_S3_VERITY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
