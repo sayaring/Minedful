@@ -1,15 +1,12 @@
-from django.db import models
 from djongo import models
 
+class User(models.Model):
+    user_id = models.IntegerField(primary_key= True)
+    password = models.CharField(max_length= 50)
+    email_id = models.CharField(max_length= 50)
+    username = models.CharField(max_length= 50)
 
 class Report(models.Model):
-    user_id = models.AutoField(primary_key= True)
-    password = models.CharField(max_length= 50)
-    variants = models.IntegerField()
-    logs = models.IntegerField()
-    case_arrival = models.DecimalField(max_digits=10, decimal_places=2)
-    case_duration = models.DecimalField(max_digits=10, decimal_places=2)
-    opening_activities = models.JSONField()
-    ending_activities = models.JSONField()
-    rework_activities = models.JSONField()
-    
+    user_id = models.CharField(max_length= 255)
+    report_json = models.TextField()
+
