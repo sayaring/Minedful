@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
@@ -10,6 +11,61 @@ function Signup() {
   };
   const togglePasswordVisibility2 = () => {
     setShowPassword2(!showPassword2);
+  };
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    rpassword: '',
+  });
+
+  const passwordsMatch = formData.password === formData.rpassword;
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    if (!passwordsMatch) {
+      toast.error('Passwords do not match. Please re-enter.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://your-django-backend.com/signup/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Signup successful:', data);
+        // Redirect or show success message
+        toast.success('User registered successfully. Redirecting to login page.');
+        // Redirect to the login page (you may use react-router-dom for this)
+        window.location.href = '/login';
+      } else {
+        console.error('Signup failed:', data.error);
+        toast.error(data.error || 'Registration failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error during signup:', error.message);
+      // Handle other errors, network issues, etc.
+      toast.error('An unexpected error occurred. Please try again later.');
+
+    }
   };
 
   return (
@@ -36,6 +92,7 @@ function Signup() {
                     autoComplete="off"
                     placeholder="Enter Name"
                     required
+                    onChange={handleInputChange}
                     className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -53,6 +110,7 @@ function Signup() {
                     autoComplete="email"
                     placeholder="Enter Email"
                     required
+                    onChange={handleInputChange}
                     className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -71,6 +129,7 @@ function Signup() {
                     autoComplete="off"
                     placeholder="Enter a password"
                     required
+                    onChange={handleInputChange}
                     className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                   <span
@@ -115,11 +174,14 @@ function Signup() {
                   <input
                     id="rpassword"
                     name="rpassword"
-                    type={showPassword2 ? 'text' : 'password'} // Fixed the type here
+                    type={showPassword2 ? 'text' : 'password'}
                     autoComplete="off"
                     placeholder="Re-Enter the password"
                     required
-                    className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={handleInputChange}
+                    className={`block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
+                      !passwordsMatch ? 'ring-red-600' : ''
+                    }`}
                   />
                   <span
                     onClick={togglePasswordVisibility2}
@@ -156,6 +218,7 @@ function Signup() {
               <div>
                 <button
                   type="submit"
+                  onClick={handleSignup}
                   className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
                 >
                   Submit
@@ -171,6 +234,8 @@ function Signup() {
           </div>
         </div>
       </div>
+      <ToastContainer />
+
     </div>
   );
 }
