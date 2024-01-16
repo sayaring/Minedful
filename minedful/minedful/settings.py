@@ -135,12 +135,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AWS_ACCESS_KEY_ID = 'AKIAZ4DIQU2XAFOPNUPJ'
-AWS_SECRET_ACCESS_KEY = 'uvqEq5l9BPQQKTgHNRviakIdAkBv/TAMMwA1eg92'
+# please give your own access key id
+'''AWS_ACCESS_KEY_ID = '**'
+AWS_SECRET_ACCESS_KEY = '**'
 AWS_STORAGE_BUCKET_NAME = 'minedfulbucket'
 AWS_S3_SIGNATURE_NAME = 's3v4',
 AWS_S3_REGION_NAME = 'ap-south-1'
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL =  None
 AWS_S3_VERITY = True
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' '''
