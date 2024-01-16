@@ -17,8 +17,8 @@ def report_data(file_path, user_id):
     variants = pm4py.stats.get_variants(log)
     value = list(variants.values())
     session = boto3.Session(
-    aws_access_key_id='AKIAZ4DIQU2XAFOPNUPJ',
-    aws_secret_access_key='uvqEq5l9BPQQKTgHNRviakIdAkBv/TAMMwA1eg92',
+    aws_access_key_id='**use your access id',
+    aws_secret_access_key='**use your access key',
     region_name='ap-south-1'
     )
     s3 = session.client('s3')
